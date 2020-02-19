@@ -3,6 +3,7 @@ package edu.eci.arsw.primefinder;
 import edu.eci.arsw.mouseutils.MouseMovementMonitor;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.HttpResponse;
@@ -14,37 +15,53 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class PrimesFinderTool {
 
+    public static Boolean pause = false;
+    public static Object monitThread = new Object();
+    public static int threads = 4; //Los 4 Threads
+    public static AtomicInteger countTr = new AtomicInteger(threads);
+
 	public static void main(String[] args) {
 		            
-            int maxPrim=1000;
-            
+            int maxPrim=100;
+            int threads = 4;
             PrimesResultSet prs=new PrimesResultSet("john");
             PrimeFinder primesFinder = new PrimeFinder();
-            primesFinder.findPrimes(new BigInteger("1"), new BigInteger("10000"), prs);
-            primesFinder.start();
-            System.out.println("Prime numbers found:");
-            System.out.println(prs.getPrimes());
-            /*while(task_not_finished){
+            PrimeFinderThread primeThread[] = new PrimeFinderThread[threads];
+
+            int arreglo = maxPrim/threads;
+            int start = 0;
+            int end = 0;
+            for(int i=0;i<threads;i++){
+                end = start+arreglo;
+                primeThread[i]= new PrimeFinderThread(new BigInteger(String.valueOf(start++)),new BigInteger(String.valueOf(end)),prs);
+                primeThread[i].start();
+                start=end;
+            }
+
+            while(countTr.get()>0){
                 try {
                     //check every 10ms if the idle status (10 seconds without mouse
-                    //activity) was reached. 
+                    //activity) was reached.
                     Thread.sleep(10);
                     if (MouseMovementMonitor.getInstance().getTimeSinceLastMouseMovement()>10000){
                         System.out.println("Idle CPU ");
+                        pause = true;
                     }
                     else{
                         System.out.println("User working again!");
+                        pause = false;
+                        synchronized (monitThread){
+                            monitThread.notifyAll();
+                        }
                     }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(PrimesFinderTool.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }*/
-                        
-            
-            
-            
-            
-	}
+            }
+            System.out.println("Prime numbers found:");
+            System.out.println(prs.getPrimes());
+            System.exit(0);
+    }
 	
 }
 
