@@ -19,14 +19,11 @@ public class PrimesFinderTool {
             int maxPrim=1000;
             
             PrimesResultSet prs=new PrimesResultSet("john");
-            
-            PrimeFinder.findPrimes(new BigInteger("1"), new BigInteger("10000"), prs);
-            
+            PrimeFinder primesFinder = new PrimeFinder();
+            primesFinder.findPrimes(new BigInteger("1"), new BigInteger("10000"), prs);
+            primesFinder.start();
             System.out.println("Prime numbers found:");
-            
             System.out.println(prs.getPrimes());
-            
-            
             /*while(task_not_finished){
                 try {
                     //check every 10ms if the idle status (10 seconds without mouse
