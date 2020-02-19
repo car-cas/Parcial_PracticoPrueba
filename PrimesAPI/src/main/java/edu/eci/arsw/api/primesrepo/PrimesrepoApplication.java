@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PrimesrepoApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(PrimesrepoApplication.class, args);
 	}
 }
