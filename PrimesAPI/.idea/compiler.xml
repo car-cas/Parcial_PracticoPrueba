@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="2018-1-arsw-par1" />
         <module name="primesrepo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="2018-1-arsw-par1" target="1.8" />
       <module name="primesrepo" target="1.8" />
     </bytecodeTargetLevel>
   </component>

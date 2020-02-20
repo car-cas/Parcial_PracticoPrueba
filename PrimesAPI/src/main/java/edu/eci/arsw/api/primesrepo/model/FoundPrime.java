@@ -1,18 +1,19 @@
 package edu.eci.arsw.api.primesrepo.model;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author Santiago Carrillo
  * 2/22/18.
  */
+@Component
 public class FoundPrime
 {
     String user;
 
     String prime;
 
-    public FoundPrime()
-    {
-    }
+    public FoundPrime() { }
 
     public String getUser()
     {

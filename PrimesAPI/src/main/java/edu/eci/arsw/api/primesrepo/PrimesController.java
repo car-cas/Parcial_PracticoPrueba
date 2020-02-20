@@ -3,7 +3,6 @@ package edu.eci.arsw.api.primesrepo;
 import edu.eci.arsw.api.primesrepo.model.FoundPrime;
 import edu.eci.arsw.api.primesrepo.service.PrimeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,48 +15,40 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  * @author Santiago Carrillo
  * 2/22/18.
  */
-
 @RestController
-@RequestMapping(value = "/primes")
 public class PrimesController {
 
     @Autowired
-    @Qualifier("primeService")
-    PrimeServices primeService;
+    PrimeService primeService;
 
-    @RequestMapping( method = GET)
+    @GetMapping("/primes")
     public ResponseEntity<?> getPrimes() {
-        try {
-            return new ResponseEntity<>( primeService.getFoundPrimes(), HttpStatus.ACCEPTED);
-        } catch (Exception e) {
 
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        try {
+            return new ResponseEntity<>(primeService.getFoundPrimes(), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
 
-    @RequestMapping(value = "/{primo}", method = GET)
-    public ResponseEntity<?>  getPrimes(@PathVariable("primo") String primo) {
-        try {
-            return new ResponseEntity<>( primeService.getPrime(primo),HttpStatus.ACCEPTED);
-        } catch (Exception e) {
+    @PostMapping("/primes")
+    public ResponseEntity<?> postPrime(@RequestBody FoundPrime newFoundPrime) {
 
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        try {
+            return new ResponseEntity<>(primeService.addFoundPrime(newFoundPrime), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
+    @GetMapping("/primes/{primeNumber}")
+    public ResponseEntity<?> getPrimeByPrimeNumber(@PathVariable String primeNumber) {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?>  addNewPrime( @RequestBody FoundPrime primo) {
         try {
-            primeService.addFoundPrime(primo);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(primeService.getPrime(primeNumber), HttpStatus.ACCEPTED);
         } catch (Exception e) {
-
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    //TODO implement additional methods provided by PrimeService
-
 }

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../PrimesFinderDesktopTool/2018-1-arsw-par1.iml" filepath="$PROJECT_DIR$/../PrimesFinderDesktopTool/2018-1-arsw-par1.iml" />
       <module fileurl="file://$PROJECT_DIR$/primesrepo.iml" filepath="$PROJECT_DIR$/primesrepo.iml" />
     </modules>
   </component>

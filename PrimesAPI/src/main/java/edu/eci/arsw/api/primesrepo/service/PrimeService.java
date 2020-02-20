@@ -1,7 +1,7 @@
 package edu.eci.arsw.api.primesrepo.service;
 
-import edu.eci.arsw.api.primesrepo.PrimesException;
 import edu.eci.arsw.api.primesrepo.model.FoundPrime;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  * @author Santiago Carrillo
  * 2/22/18.
  */
-public interface PrimeService
-{
+@Service
+public interface PrimeService {
 
-    void addFoundPrime(FoundPrime foundPrime) throws PrimesException;
+    FoundPrime addFoundPrime( FoundPrime foundPrime ) throws Exception;
 
-    List<FoundPrime> getFoundPrimes()throws PrimesException;
+    List<FoundPrime> getFoundPrimes();
 
-    FoundPrime getPrime( String prime )throws PrimesException;
+    FoundPrime getPrime( String prime ) throws Exception;
 
 }
